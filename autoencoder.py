@@ -35,7 +35,7 @@ inputs = Input(shape=(input_unit_size,))
 x = Dense(144, activation='relu')(inputs)
 outputs = Dense(input_unit_size)(x)
 model = Model(input=inputs, output=outputs)
-model.compile(loss='mse', optimizer='adamax')
+model.compile(loss='binary_crossentropy', optimizer='adamax')
 
 # トレーニング
 early_stopping = EarlyStopping(monitor='loss', patience=5)
