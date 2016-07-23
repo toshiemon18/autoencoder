@@ -77,3 +77,6 @@ plt.show()
 #         draw_digit(last_outputs[total], show_size, show_size, total+1)
 #         total+=1
 # plt.show()
+
+
+plot(model, to_file="model.png", show_shapes=True)
