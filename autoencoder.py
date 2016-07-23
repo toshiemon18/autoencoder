@@ -28,7 +28,7 @@ input_unit_size = input_dim ** 2
 (X_train, y_train), (X_test, y_test) = mnist.load_data()
 
 X_train = X_train.reshape(X_train.shape[0], input_unit_size)
-X_train = X_train.astype('float32')
+X_train = X_train.astype('float32') / 255
 
 # モデルの定義
 inputs = Input(shape=(input_unit_size,))
