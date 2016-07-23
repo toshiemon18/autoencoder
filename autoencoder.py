@@ -19,9 +19,9 @@ def draw_digit(data, row, col, n):
     size = int(np.sqrt(data.shape[0]))
     plt.subplot(row, col, n)
     plt.imshow(data.reshape(size, size))
-    plt.gray()
+    # plt.gray()
 
-epochs = 2
+epochs = 20
 batch_size = 258
 input_dim = 28
 input_unit_size = input_dim ** 2
@@ -35,7 +35,7 @@ inputs = Input(shape=(input_unit_size,))
 x = Dense(144, activation='relu')(inputs)
 outputs = Dense(input_unit_size)(x)
 model = Model(input=inputs, output=outputs)
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='adamax')
 
 # トレーニング
 early_stopping = EarlyStopping(monitor='loss', patience=5)
@@ -53,27 +53,27 @@ show_size = 10
 # plt.show()
 
 # 隠れ層の学習状況を描画
-# get_layer_output = K.function([model.layers[0].input],
-#                               [model.layers[1].output])
-# hidden_outputs = get_layer_output([X_train[0:show_size**2]])[0]
-#
-# total = 0
-# plt.figure(figsize=(20, 20))
-# for i in range(show_size):
-#     for j in range(show_size):
-#         draw_digit(hidden_outputs[total], show_size, show_size, total+1)
-#         total+=1
-# plt.show()
-
-# デコードした出力層の出力を描画
 get_layer_output = K.function([model.layers[0].input],
-                              [model.layers[2].output])
-last_outputs = get_layer_output([X_train[0:show_size**2]])[0]
+                              [model.layers[1].output])
+hidden_outputs = get_layer_output([X_train[0:show_size**2]])[0]
 
 total = 0
 plt.figure(figsize=(20, 20))
 for i in range(show_size):
     for j in range(show_size):
-        draw_digit(last_outputs[total], show_size, show_size, total+1)
+        draw_digit(hidden_outputs[total], show_size, show_size, total+1)
         total+=1
 plt.show()
+
+# デコードした出力層の出力を描画
+# get_layer_output = K.function([model.layers[0].input],
+#                               [model.layers[2].output])
+# last_outputs = get_layer_output([X_train[0:show_size**2]])[0]
+#
+# total = 0
+# plt.figure(figsize=(20, 20))
+# for i in range(show_size):
+#     for j in range(show_size):
+#         draw_digit(last_outputs[total], show_size, show_size, total+1)
+#         total+=1
+# plt.show()
